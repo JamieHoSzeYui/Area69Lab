@@ -14,9 +14,9 @@ on:
     types: [started]
     
 env:
-  ROM_URL: https://ayera.dl.sourceforge.net/project/miuiromports//Whyred/MASIK%20X/Masik%20X%2013.2%20v2%20Whyred%20port.zip
-  ROM_NAME: MIUI:MasikX
-  ZIP_NAME: MasikX
+  ROM_URL: https://download.c.realme.com/osupdate/RMX2061_11_OTA_0270_all_EmtL5ZcP1lZd.ozip
+  ROM_NAME: ColorOS
+  ZIP_NAME: COS720G
   TZ: Asia/Kolkata
 
 jobs:
@@ -50,15 +50,17 @@ jobs:
          run: |
               mkdir final
               sudo chmod -R 777 ErfanGSIs/output
-              zip -r ErfanGSIs/output/$ZIP_NAME-GSI-Aonly.7z ErfanGSIs/output/*-Aonly-*.img
-              curl -sL https://git.io/file-transfer | sh
-              ./transfer bit ErfanGSIs/output/$ZIP_NAME-GSI-Aonly.7z          
+              cd ErfanGSIs/output
+              rm -rf *-Aonly-*.img
+              curl -sL https://git.io/file-transfer | sh       
        - name: Zip AB and upload 
          run: |
-              zip -r ErfanGSIs/output/$ZIP_NAME-GSI-AB.7z ErfanGSIs/output/*-AB-*.img
-              ./transfer bit ErfanGSIs/output/$ZIP_NAME-GSI-AB.7z      
+              cd ErfanGSIs/output
+              zip -r $ZIP_NAME-GSI-AB.7z *-AB-*.img
+              ./transfer wet $ZIP_NAME-GSI-AB.7z      
        - name: Upload build info
          run: |
-              ./transfer bit ErfanGSIs/output/*-Aonly-*.txt
+              cd ErfanGSIs/output
+              cat *-Aonly-*.txt
          
             
